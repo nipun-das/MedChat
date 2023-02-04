@@ -1,7 +1,8 @@
 from flask import Flask,request,jsonify
 import pickle, numpy as np
+from waitress import serve
 
-model = pickle.load(open('model1.pk1','rb'))
+model = pickle.load(open('model3.pk1','rb'))
 
 app = Flask(__name__)
 
