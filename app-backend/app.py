@@ -1,30 +1,15 @@
-import numpy as np
-import pickle
-
 from flask import Flask, request, jsonify
-
-model = pickle.load(open('model3.pk1', 'rb'))
+from DiseasePrediction import DiseasePrediction
 
 app = Flask(__name__)
-
-
-@app.route('/')
-def index():
-    return "Hello world"
-
+model = DiseasePrediction()
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    cgpa = request.form.get('cgpa')
-    iq = request.form.get('iq')
-    profile_score = request.form.get('profile_score')
-
-    input_query = np.array([[cgpa, iq, profile_score]])
-
-    result = model.predict(input_query)[0]
-
-    return jsonify({'placement': str(result)})
-
+    symptoms = request.json['symptoms']
+    input_features = model.inputNLP(symptoms)
+    prediction = model.make_prediction([input_features])[0]
+    return jsonify({'prediction': prediction})
 
 if __name__ == '__main__':
     app.run(debug=True)
