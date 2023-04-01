@@ -287,7 +287,7 @@ export default function App() {
     //     console.log(symptoms)
 
     try {
-      const response = await fetch('http://localhost:5000/predict', {
+      const response = await fetch('http://127.0.0.1:5000/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -318,7 +318,7 @@ export default function App() {
     <View style={styles.container}>
       {isAskingSymptom ? (
         <>
-          <Text style={styles.prompt}>How are you feeling?</Text>
+          <Text  style={styles.prompt}>How are you feeling?</Text>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
@@ -342,7 +342,7 @@ export default function App() {
         </>
       ) : (
         <>
-          <Text style={styles.prompt}>Thank you. Your symptoms have been recorded.</Text>
+          <Text style={styles.prompt}>Thank youuu. Your symptoms have been recorded.</Text>
           <Text style={styles.prompt}>{outputText}</Text>
           <FlatList
             style={styles.symptomsList}
@@ -361,6 +361,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor:"white",
+    paddingTop:50,
+    paddingLeft:50,
+    paddingRight:50
   },
   prompt: {
     fontSize: 20,
@@ -407,6 +411,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
     padding: 10,
     borderRadius: 10,
+    marginBottom:100
+    
   },
   submitButtonText: {
     color: '#fff',
