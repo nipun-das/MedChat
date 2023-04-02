@@ -74,7 +74,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {isAskingSymptom ? (
+      {/* {isAskingSymptom ? ( */}
         <>
           <Text  style={styles.prompt}>How are you feeling?</Text>
           <View style={styles.inputContainer}>
@@ -98,9 +98,9 @@ export default function App() {
             <Text style={styles.submitButtonText}>Finish</Text>
           </TouchableOpacity>
         </>
-      ) : (
+      {/* // ) : ( */}
         <>
-          <Text style={styles.prompt}>Thank youuu. Your symptoms have been recorded.</Text>
+          {/* <Text style={styles.prompt}>Thank youuu. Your symptoms have been recorded.</Text> */}
           <Text style={styles.prompt}>{outputText}</Text>
           <FlatList
             style={styles.symptomsList}
@@ -109,7 +109,7 @@ export default function App() {
             keyExtractor={(item, index) => index.toString()}
           />
         </>
-      )}
+      {/* // )} */}
     </View>
   );
 }
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   symptomsList: {
     flex: 1,
     width: '100%',
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
   symptomItem: {
     padding: 10,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
     padding: 10,
     borderRadius: 10,
-    marginBottom:100
+    marginBottom:20
     
   },
   submitButtonText: {
