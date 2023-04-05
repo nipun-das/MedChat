@@ -181,18 +181,169 @@
 //   },
 // });
 
+// import React, { useState } from 'react';
+// import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+
+// export default function App() {
+//   const [inputText, setInputText] = useState('');
+
+//   const [symptoms, setSymptoms] = useState('');
+//   const [symptomsList, setSymptomsList] = useState([]);
+//   const [prediction, setPrediction] = useState('');
+//   const [isAskingSymptom, setIsAskingSymptom] = useState(true);
+
+
+//   const handleAddSymptom = () => {
+//     if (symptoms) {
+//       setSymptomsList([...symptomsList, symptoms]);
+//       setSymptoms('');
+//       console.log("1." + symptoms)
+//       handleUserSend()
+
+//     }
+//   };
+
+//   const handleFinishSymptoms = () => {
+//     setIsAskingSymptom(false);
+//     console.log("2." + symptomsList)
+//     handleSubmit()
+
+//   };
+
+//   const handleSubmit = async () => {
+//     //     // console.log("afte0")
+//     //     if (symptoms === 'end') {
+//     //     console.log("inside end")
+//     //    
+//     // setSymptoms('');
+//     //       return;
+//     //     }
+//     //     const message = { message: symptoms };
+//     //     setChatMessages([...chatMessages, message]);
+//     //     // console.log("afte1")
+//     //     console.log(symptoms)
+
+//     try {
+//       const response = await fetch('http://192.168.1.73:5000/predict', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ symptoms: symptomsList })
+//       });
+//       //       // console.log("afte2")
+
+//       const data = await response.json();
+//       setPrediction(data.prediction);
+//       // const responseMessage = { message: `The result is ${data.prediction}.` };
+//       // setChatMessages([...chatMessages, responseMessage]);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//     // setSymptoms('');
+//   };
+//   //   // console.log("afte3")
+
+
+
+
+//   const [userMessages, setUserMessages] = useState([]);
+
+//   const handleUserSend = () => {
+//     // if (inputText.trim() === '') {
+//     //   return;
+//     // }
+//     setUserMessages((prevMessages) => [
+//       ...prevMessages,
+//       { text: symptoms, sender: 'user' },
+//     ]);
+//     // console.log("usermsg : ", userMessages)
+//     // console.log("inputtext : ", inputText)
+//     // setInputText('');
+//     // Call your chatbot API with the inputText here and add the chatbot's response to the messages state
+//   };
+//   //   const handleFinishSymptoms = () => {
+//   //     setIsAskingSymptom(false);
+//   //     console.log("2." + symptoms)
+//   //     handleSubmit()
+
+//   // const [chatResponses, setChatResponses] = useState([])
+
+//   // const handleChatResponse = () => {
+//   //   setChatResponses((prevMessages) => [
+//   //     ...prevMessages,
+//   //     { text: outputText, sender: 'chat' },
+//   //   ]);
+//   // }
+
+//   let outputText = '';
+//   if (prediction) {
+//     outputText = `The result is ${prediction}.`;
+//     // handleChatResponse()
+//   } else {
+//     outputText = 'No result yet.';
+//     // handleChatResponse()
+//   }
+
+//   //   };
+//   return (
+//     <View style={styles.container}>
+//       <View style={styles.messagesContainer}>
+//         {userMessages.map((message, index) => (
+//           <View
+//             key={index}
+//             style={[
+//               styles.message,
+//               message.sender === 'user' ? styles.userMessage : styles.chatbotMessage,
+//             ]}>
+//             <Text>{message.text}</Text>
+//           </View>
+//         ))}
+//       </View>
+//       {/* <View style={styles.messagesContainer}>
+//         {chatResponses.map((message, index) => (
+//           <View
+//             key={index}
+//             style={[
+//               styles.message,
+//               message.sender === 'chat' ? styles.chatMessage : styles.chatbotMessage,
+//             ]}>
+//             <Text>{message.text}</Text>
+//           </View>
+//         ))}
+//       </View> */}
+//       <View style={styles.inputContainer}>
+//         <TextInput
+//           style={styles.input}
+//           placeholder="Type your message here..."
+//           value={symptoms}
+//           onChangeText={setSymptoms}
+
+//         />
+//         <TouchableOpacity style={styles.sendButton} onPress={handleFinishSymptoms}>
+//           {/* handleSend */}
+//           <Text style={styles.sendButtonText}>Send</Text>
+//         </TouchableOpacity>
+//         <TouchableOpacity style={styles.addButton} onPress={handleAddSymptom}>
+//           {/* handleSend */}
+//           <Text style={styles.addButtonText}>Add</Text>
+//         </TouchableOpacity>
+//       </View>
+//     </View>
+//   );
+// }
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function App() {
-  const [userMessages, setUserMessages] = useState([]);
   const [inputText, setInputText] = useState('');
 
   const [symptoms, setSymptoms] = useState('');
   const [symptomsList, setSymptomsList] = useState([]);
   const [prediction, setPrediction] = useState('');
   const [isAskingSymptom, setIsAskingSymptom] = useState(true);
-
+  const [chatbotResponses, setChatbotResponses] = useState([]);
 
   const handleAddSymptom = () => {
     if (symptoms) {
@@ -200,7 +351,6 @@ export default function App() {
       setSymptoms('');
       console.log("1." + symptoms)
       handleUserSend()
-
     }
   };
 
@@ -208,22 +358,9 @@ export default function App() {
     setIsAskingSymptom(false);
     console.log("2." + symptomsList)
     handleSubmit()
-
   };
 
   const handleSubmit = async () => {
-    //     // console.log("afte0")
-    //     if (symptoms === 'end') {
-    //     console.log("inside end")
-    //    
-    // setSymptoms('');
-    //       return;
-    //     }
-    //     const message = { message: symptoms };
-    //     setChatMessages([...chatMessages, message]);
-    //     // console.log("afte1")
-    //     console.log(symptoms)
-
     try {
       const response = await fetch('http://192.168.1.73:5000/predict', {
         method: 'POST',
@@ -232,18 +369,21 @@ export default function App() {
         },
         body: JSON.stringify({ symptoms: symptomsList })
       });
-      //       // console.log("afte2")
 
       const data = await response.json();
       setPrediction(data.prediction);
-      // const responseMessage = { message: `The result is ${data.prediction}.` };
-      // setChatMessages([...chatMessages, responseMessage]);
+
+      setChatbotResponses([...chatbotResponses, { text: data.prediction, sender: 'chatbot' }]);
     } catch (error) {
       console.error(error);
     }
-    // setSymptoms('');
   };
-  //   // console.log("afte3")
+
+  const [userMessages, setUserMessages] = useState([]);
+
+  const handleUserSend = () => {
+    setUserMessages((prevMessages) => [...prevMessages, { text: symptoms, sender: 'user' },]);
+  };
 
   let outputText = '';
   if (prediction) {
@@ -252,33 +392,6 @@ export default function App() {
     outputText = 'No result yet.';
   }
 
-
-
-  const handleUserSend = () => {
-    // if (inputText.trim() === '') {
-    //   return;
-    // }
-    setUserMessages((prevMessages) => [
-      ...prevMessages,
-      { text: symptoms, sender: 'user' },
-    ]);
-    // console.log("usermsg : ", userMessages)
-    // console.log("inputtext : ", inputText)
-    // setInputText('');
-    // Call your chatbot API with the inputText here and add the chatbot's response to the messages state
-  };
-  //   const handleFinishSymptoms = () => {
-  //     setIsAskingSymptom(false);
-  //     console.log("2." + symptoms)
-  //     handleSubmit()
-
-  const handleAppResponse = () => {
-
-  }
-
-
-
-  //   };
   return (
     <View style={styles.container}>
       <View style={styles.messagesContainer}>
@@ -289,26 +402,37 @@ export default function App() {
               styles.message,
               message.sender === 'user' ? styles.userMessage : styles.chatbotMessage,
             ]}>
-            <Text>{message.text}</Text>
+            <Text style={[styles.text]}>{message.text}</Text>
           </View>
         ))}
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Type your message here..."
-          value={symptoms}
-          onChangeText={setSymptoms}
+        {chatbotResponses.map((response, index) => (
+          <View
+            key={index}
+            style={[
+              styles.message,
+              response.sender === 'user' ? styles.userMessage : styles.chatbotMessage,
+            ]}>
+            <Text>{response.text}</Text>
+          </View>
+        ))}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Type your message here..."
+            value={symptoms}
+            onChangeText={setSymptoms}
 
-        />
-        <TouchableOpacity style={styles.sendButton} onPress={handleFinishSymptoms}>
-          {/* handleSend */}
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.addButton} onPress={handleAddSymptom}>
-          {/* handleSend */}
-          <Text style={styles.addButtonText}>Add</Text>
-        </TouchableOpacity>
+          />
+          <TouchableOpacity style={styles.sendButton} onPress={handleFinishSymptoms}>
+            {/* handleSend */}
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.addButton} onPress={handleAddSymptom}>
+            {/* handleSend */}
+            <Text style={styles.addButtonText}>Add</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     </View>
   );
@@ -323,6 +447,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 50,
     padding: 10,
+  },
+  text: {
+    color: 'white'
   },
   message: {
     padding: 10,
@@ -343,7 +470,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopWidth: 1,
     borderTopColor: '#E5E5EA',
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
     padding: 10,
+    right: 0,
+    left: 0,
   },
   input: {
     flex: 1,
@@ -351,6 +483,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E5E5EA',
     borderRadius: 8,
+    backgroundColor: 'white',
     paddingHorizontal: 10,
   },
   sendButton: {
@@ -370,6 +503,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 8,
+    width: 60,
   },
   addButtonText: {
     color: '#fff',
