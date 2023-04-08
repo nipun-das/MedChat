@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScrollView,View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function App() {
   const [inputText, setInputText] = useState('');
@@ -14,7 +14,7 @@ export default function App() {
     greeting: [
       "Hey there! How are you feeling today?",
       "Hello! What's going on?",
-      "Hi! What symptoms are you experiencing?",
+      "What symptoms are you experiencing?",
       "Hi user!",
       "Hello user!",
       "hey nice to meet you!",
@@ -122,6 +122,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+    <ScrollView >  
+
       <View style={styles.messagesContainer}>
         {userMessages.map((message, index) => (
           <View
@@ -143,6 +145,10 @@ export default function App() {
             <Text>{response.text}</Text>
           </View>
         ))}
+      </View>
+
+      </ScrollView>
+
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
@@ -170,8 +176,8 @@ export default function App() {
           </TouchableOpacity>
         </View>
 
-      </View>
     </View>
+    
   );
 }
 
@@ -184,6 +190,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 50,
     padding: 10,
+    backgroundColor:"blue",
+    marginBottom:50
   },
   text: {
     color: 'white'
