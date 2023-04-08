@@ -9,6 +9,22 @@ export default function App() {
   const [prediction, setPrediction] = useState('');
   const [isAskingSymptom, setIsAskingSymptom] = useState(true);
   const [chatbotResponses, setChatbotResponses] = useState([]);
+  const [isGreeting, setIsGreeting] = useState(true);
+  const prompts = {
+    greeting: [
+      "Hey there! How are you feeling today?",
+      "Hello! What's going on?",
+      "Hi! What symptoms are you experiencing?",
+      "Hi user!",
+      "Hello user!",
+      "hey nice to meet you!",
+    ],
+    symptom: [
+      "What symptoms are you experiencing?",
+      "Can you tell me more about your symptoms?",
+      "How are you feeling today?",
+    ],
+  };
 
   const handleAddSymptom = () => {
     if (symptoms) {
@@ -16,6 +32,18 @@ export default function App() {
       setSymptoms('');
       console.log("1." + symptoms)
       handleUserSend()
+
+      if (isGreeting) {
+        // use a greeting prompt
+        const prompt = prompts.greeting[Math.floor(Math.random() * prompts.greeting.length)];
+        setChatbotResponses([...chatbotResponses, { text: prompt, sender: 'chatbot' }]);
+        
+      } else {
+        // use a symptom prompt
+        const prompt = prompts.symptom[Math.floor(Math.random() * prompts.symptom.length)];
+        setChatbotResponses([...chatbotResponses, { text: prompt, sender: 'chatbot' }]);
+        // handleSubmit();
+      }
     }
   };
 
@@ -24,6 +52,22 @@ export default function App() {
     console.log("2." + symptomsList)
     handleSubmit()
   };
+
+  // const handleFinishSymptoms = () => {
+  //   if (isGreeting) {
+  //     // use a greeting prompt
+  //     const prompt = prompts.greeting[Math.floor(Math.random() * prompts.greeting.length)];
+  //     setChatbotResponses([...chatbotResponses, { text: prompt, sender: 'chatbot' }]);
+      
+  //   } else {
+  //     // use a symptom prompt
+  //     const prompt = prompts.symptom[Math.floor(Math.random() * prompts.symptom.length)];
+  //     setChatbotResponses([...chatbotResponses, { text: prompt, sender: 'chatbot' }]);
+  //     handleSubmit();
+  //   }
+  //   setIsAskingSymptom(false);
+  // };
+
 
   const handleSubmit = async () => {
     try {
@@ -46,9 +90,28 @@ export default function App() {
 
   const [userMessages, setUserMessages] = useState([]);
 
+  // const handleUserSend = () => {
+  //   setUserMessages((prevMessages) => [...prevMessages, { text: symptoms, sender: 'user' },]);
+  // };
+
   const handleUserSend = () => {
+    const lowerCaseInput = symptoms.toLowerCase();
     setUserMessages((prevMessages) => [...prevMessages, { text: symptoms, sender: 'user' },]);
+
+    // check if the user input matches a greeting prompt
+    const greetingPrompt = Object.values(prompts.greeting).find(prompt =>
+      prompt.toLowerCase().includes(lowerCaseInput)
+    );
+
+    if (greetingPrompt) {
+      setIsGreeting(true);
+    } else {
+      setSymptomsList([...symptomsList, symptoms]);
+      setSymptoms('');
+      setIsGreeting(false);
+    }
   };
+
 
   let outputText = '';
   if (prediction) {
@@ -75,7 +138,7 @@ export default function App() {
             key={index}
             style={[
               styles.message,
-              response.sender === 'user' ? styles.userMessage : styles.chatbotMessage,
+              response.sender === 'chatbot' ? styles.chatbotMessage : styles.userMessage,
             ]}>
             <Text>{response.text}</Text>
           </View>
@@ -88,6 +151,17 @@ export default function App() {
             onChangeText={setSymptoms}
 
           />
+          {/* <TextInput
+            style={[
+              styles.message,
+              response.sender === 'user' ? styles.userMessage : styles.chatbotMessage,
+            ]}
+            placeholder={isGreeting ? prompts.greeting[0] : prompts.symptom[0]}
+            value={symptoms}
+            onChangeText={setSymptoms}
+          /> */}
+
+
           <TouchableOpacity style={styles.sendButton} onPress={handleFinishSymptoms}>
             <Text style={styles.sendButtonText}>Send</Text>
           </TouchableOpacity>
@@ -173,3 +247,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+
+
+
+
+// fix chat response order
