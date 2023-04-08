@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView,View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function App() {
@@ -14,7 +14,6 @@ export default function App() {
     greeting: [
       "Hey there! How are you feeling today?",
       "Hello! What's going on?",
-      "What symptoms are you experiencing?",
       "Hi user!",
       "Hello user!",
       "hey nice to meet you!",
@@ -119,10 +118,13 @@ export default function App() {
   } else {
     outputText = 'No result yet.';
   }
-
+  const scrollViewRef = useRef();
+  useEffect(() => {
+    scrollViewRef.current.scrollToEnd({ animated: true });
+  });
   return (
     <View style={styles.container}>
-    <ScrollView >  
+    <ScrollView  ref={scrollViewRef}>  
 
       <View style={styles.messagesContainer}>
         {userMessages.map((message, index) => (
