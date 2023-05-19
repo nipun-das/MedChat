@@ -2,11 +2,14 @@ package com.nipundas.appfrontend;
 
 import android.os.Build;
 import android.os.Bundle;
-
+import org.devio.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
+import org.devio.rn.splashscreen.SplashScreen; // here
+// react-native-splash-screen < 0.3.1
+// import com.cboy.rn.splashscreen.SplashScreen; // here
 
 import expo.modules.ReactActivityDelegateWrapper;
 
@@ -16,8 +19,9 @@ public class MainActivity extends ReactActivity {
     // Set the theme to AppTheme BEFORE onCreate to support 
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
-    setTheme(R.style.AppTheme);
-    super.onCreate(null);
+    // setTheme(R.style.AppTheme);
+    SplashScreen.show(this); 
+    super.onCreate(savedInstanceState);
   }
 
   /**
@@ -26,7 +30,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "main";
+    return "MySplashScreen";
   }
 
   /**

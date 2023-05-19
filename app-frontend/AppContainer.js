@@ -2,13 +2,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomePage from './HomePage';
 import PredictionPage from './PredictionPage';
+import { useEffect } from 'react'
 import DiseaseInfoPage from './DiseaseInfoPage';
+import SplashScreen from 'react-native-splash-screen';
 
 // ...
 
 const Stack = createNativeStackNavigator();
 
 const AppContainer = () => {
+    
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
