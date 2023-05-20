@@ -7,7 +7,8 @@ const slides=[
     {
         key:'one',
         title:'Title 1',
-        text:'text sample is this an apple mango orange all at one place.'
+        text:'text sample is this an apple mango orange all at one place.',
+        image:
     }
 ]
 
