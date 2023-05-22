@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { LogBox } from 'react-native';
+
+// Ignore the VirtualizedLists warning
+LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+
 
 export default function PredictionPage() {
   const [inputText, setInputText] = useState('');
@@ -184,6 +189,9 @@ export default function PredictionPage() {
               </View>
             );
           }}
+          ListHeaderComponent={<View style={styles.header} />} // Add this line
+        ListFooterComponent={<View style={styles.footer} />} // Add this line
+        contentContainerStyle={styles.flatListContent} // Add this line
         />
 
 
@@ -283,6 +291,17 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+  header: {
+    height: 0, // Adjust the height as needed
+  },
+
+  footer: {
+    height: 0, // Adjust the height as needed
+  },
+
+  flatListContent: {
+    flexGrow: 1, // Allow the FlatList to take up the available space
   },
 });
 
