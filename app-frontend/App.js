@@ -77,6 +77,7 @@ import HomePage from './HomePage';
 import PredictionPage from './PredictionPage';
 import DiseaseInfoPage from './DiseaseInfoPage';
 import MapPage from './MapPage';
+import BottomNavigator from './BottomNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -92,13 +93,14 @@ const App = () => {
   }
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="IntroSlider" component={IntroSliderWrapper} />
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="PredictionPage" component={PredictionPage} />
         <Stack.Screen name="DiseaseInfoPage" component={DiseaseInfoPage} />
         <Stack.Screen name="MapPage" component={MapPage} />
-      </Stack.Navigator>
+      </Stack.Navigator> */}
+       <BottomNavigator />
     </NavigationContainer>
   )
 
