@@ -368,7 +368,7 @@
 //     if (!fontsLoaded) {
 //       return <AppLoading />;
 //     }
-   
+
 //     return (
 //       <View style={{ flex: 1 }}>
 //         <Image
@@ -614,6 +614,7 @@ import DMSansBold from './assets/fonts/DMSans-Bold.ttf';
 import DMSansMedium from './assets/fonts/DMSans-Medium.ttf';
 import { useNavigation } from '@react-navigation/native';
 import { LogBox } from 'react-native';
+import BottomNavigator from "./BottomNavigator";
 
 LogBox.ignoreLogs(['expo-app-loading is deprecated']);
 
@@ -658,8 +659,9 @@ class IntroSlider1 extends Component {
 
   handleSkip = () => {
     const { navigation } = this.props;
-    navigation.navigate('HomePage');
+    navigation.navigate('HomeNew');
   };
+
 
   renderItem = ({ item }) => {
     const { fontsLoaded } = this.state;
@@ -709,7 +711,7 @@ class IntroSlider1 extends Component {
     const { navigation } = this.props;
 
     return (
-      <View style={{ flex: 1 ,backgroundColor: 'white'}}>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
         <AppIntroSlider
           renderItem={this.renderItem}
           data={slides}
