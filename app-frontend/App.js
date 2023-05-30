@@ -31,8 +31,8 @@ const App = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* <Stack.Screen name="IntroSlider" component={IntroSliderWrapper} /> */}
         {/* <Stack.Screen name="HomeNew" component={HomeNew} /> */}
-        <Stack.Screen name="PredictionPage" component={PredictionPage} />
-        {/* <Stack.Screen name="DiseaseInfoPage" component={DiseaseInfoPage} /> */}
+        {/* <Stack.Screen name="PredictionPage" component={PredictionPage} /> */}
+        <Stack.Screen name="DiseaseInfoPage" component={DiseaseInfoPage} />
         {/* <Stack.Screen name="MapPage" component={MapPage} /> */}
       </Stack.Navigator>
     </NavigationContainer>
