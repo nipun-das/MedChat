@@ -271,7 +271,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { parseString } from 'react-native-xml2js';
+import { Image } from 'react-native';
+import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
+
+
 
 const DiseaseInfoPage = () => {
   const [inputValue, setInputValue] = useState('');
@@ -359,7 +364,35 @@ const DiseaseInfoPage = () => {
   };
 
   return (
+    <MenuProvider>
+
     <View style={styles.container}>
+      <SafeAreaView>
+          <View style={styles.topBar}>
+            <View style={styles.profileContainer}>
+              <Image source={require('./assets/images/chat-icon.png')} style={styles.profilePicture} />
+              <View style={styles.medContainer}>
+                <Text style={styles.profileName}>MedChat</Text>
+                <Text style={styles.online}>Online</Text>
+              </View>
+            </View>
+            <View style={styles.menuContainer}>
+              <Menu>
+                <MenuTrigger>
+                  <Image source={require('./assets/images/white-hamburger-icon.png')} style={styles.menuIcon} />
+                </MenuTrigger>
+                <MenuOptions>
+                  {/* <MenuOption onSelect={handleReloadChat}> */}
+                  <MenuOption>
+                    <Text style={styles.menuOption}>Reload</Text>
+                  </MenuOption>
+                  {/* Add more menu options here */}
+                </MenuOptions>
+              </Menu>
+            </View>
+          </View>
+        </SafeAreaView>
+
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         {renderChatbotResponses()}
       </ScrollView>
@@ -375,6 +408,8 @@ const DiseaseInfoPage = () => {
         </TouchableOpacity>
       </View>
     </View>
+    </MenuProvider>
+
   );
 };
 
@@ -431,6 +466,204 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  messagesContainer: {
+    flex: 1,
+    padding: 3,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+  },
+  text: {
+    fontSize: 16,
+    color: 'white'
+  },
+  avatarContainer: {
+    alignItems: 'flex-start',
+    marginRight: 4,
+    marginLeft: 8,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    // borderRadius: 20,
+  },
+  // userMessageContainer: {
+  //   // backgroundColor: '#DCF8C6',
+  //   // marginLeft: 'auto',
+  //   // flexDirection: 'row',
+  //   // alignItems: 'center',
+  // },
+  chatbotMessageContainer: {
+    // backgroundColor: '#F3F3F3',
+    // marginRight: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  message: {
+    flexDirection: 'row', // Add this line to align the icon and text horizontally
+    alignItems: 'center',
+    padding: 10,
+    // borderRadius: 8,
+    // marginBottom: 10,
+  },
+  icon: {
+    width: 50,
+    height: 50
+  },
+
+  userMessage: {
+    alignSelf: 'flex-end',
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderTopLeftRadius: 20,
+    backgroundColor: 'green',
+    marginRight: 10,
+    marginTop:5,
+    paddingLeft: 15,
+    paddingRight: 15,
+    color: '#fff',
+    fontFamily: "DMSans-Regular"
+  },
+  chatbotMessage: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#005D6C',
+    maxWidth: 230,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderTopRightRadius: 20,
+    fontFamily: "DMSans-Regular",
+    marginLeft: 4,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginTop:5,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5EA',
+    backgroundColor: '#005D6C',
+    // position: 'absolute',
+    bottom: 0,
+    padding: 10,
+    width: 370,
+    right: 0,
+    left: 0,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#E5E5EA',
+    borderRadius: 8,
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+  },
+
+  addButton: {
+    marginLeft: 8,
+    backgroundColor: "#3CCDE1",
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 8,
+    width: 56,
+  },
+  addButtonText: {
+    color: 'black',
+    fontFamily: "DMSans-Regular"
+  },
+  sendButton: {
+    marginRight: 11,
+    marginLeft: 11,
+    backgroundColor: "black",
+    paddingHorizontal: 11,
+    paddingVertical: 10,
+    borderRadius: 8,
+    width: 56,
+
+  },
+  sendButtonText: {
+    color: 'white',
+    fontFamily: "DMSans-Regular",
+
+  },
+
+
+
+  header: {
+    height: 0,
+  },
+  footer: {
+    height: 0,
+  },
+  flatListContent: {
+    flexGrow: 1,
+  },
+  topBar: {
+    marginTop: 45,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    height: 80,
+    backgroundColor: '#005D6C',
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDD',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginBottom: 10,
+  },
+  profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  profilePicture: {
+    width: 46,
+    height: 46,
+    marginRight: 12,
+    marginLeft: 26,
+    marginBottom: 10
+    // borderRadius: 15,
+  },
+  medContainer: {
+    marginBottom: 8,
+  },
+  profileName: {
+    fontSize: 20,
+    // fontWeight: 'bold',
+    fontFamily: "DMSans-Medium",
+    // backgroundColor:'yellow',
+    // marginBottom: 29,
+    color: 'white',
+  },
+  online: {
+    fontSize: 14,
+    color: '#00FF1A',
+    fontFamily: "DMSans-Medium",
+    marginRight: 40,
+    // marginTop: 2,
+  },
+  menuContainer: {
+    marginRight: 6,
+    marginBottom: 15,
+  },
+  menuIcon: {
+    width: 20,
+    height: 20,
+    // color: "white"
+
+  },
+  menuOption: {
+    padding: 8,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+
 });
 
 export default DiseaseInfoPage;
