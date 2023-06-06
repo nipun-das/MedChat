@@ -295,7 +295,7 @@ export default function PredictionPage() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Type your message here..."
+            placeholder="Message"
             value={symptoms}
             onChangeText={setSymptoms}
 
@@ -363,7 +363,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50
   },
-
   userMessage: {
     alignSelf: 'flex-end',
     borderBottomRightRadius: 20,
@@ -410,7 +409,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E5E5EA',
     borderRadius: 8,
-    backgroundColor: 'white',
+    backgroundColor: '#0095AD',
     paddingHorizontal: 10,
   },
 

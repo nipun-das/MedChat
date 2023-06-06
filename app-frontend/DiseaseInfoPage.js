@@ -275,6 +275,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { parseString } from 'react-native-xml2js';
 import { Image } from 'react-native';
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
+import { FlatList } from 'react-native-gesture-handler';
 
 
 
@@ -337,19 +338,41 @@ const DiseaseInfoPage = () => {
     return formattedHTML;
   };
 
-  const renderChatbotResponses = () => {
-    return chatbotResponses.map((response, index) => (
-      <View
-        key={index}
-        style={[
-          styles.chatContainer,
-          response.sender === 'user' ? styles.userChatContainer : styles.chatbotChatContainer
-        ]}
-      >
-        <Text style={styles.chatText}>{response.text}</Text>
-      </View>
-    ));
-  };
+  // const renderChatbotResponses = () => {
+  //   return chatbotResponses.map((response, index) => (
+  //     <View
+  //       key={index}
+  //       style={[
+  //         styles.chatContainer,
+  //         response.sender === 'user' ? styles.userChatContainer : styles.chatbotChatContainer
+  //       ]}
+  //     >
+  //       <Text style={styles.chatText}>{response.text}</Text>
+  //     </View>
+  //   ));
+  // };
+  // const renderChatbotResponses = () => {
+  //   const avatarIcon = require('./assets/images/chatbot-icon.png')
+
+  //   return chatbotResponses.map((response, index) => (
+  //     <View key={index} style={styles.chatContainer}>
+  //       <View style={styles.chatbotResponseContainer}>
+  //         <View style={styles.avatarContainer}>
+  //           <Image source={avatarIcon} style={styles.avatar} />
+  //         </View>
+  //         <Text style={styles.chatText}>{response.text}</Text>
+  //       </View>
+  //     </View>
+  //   ));
+  // };
+  // const renderChatbotResponses = () => {
+  const flatListRef = useRef(null);
+  useEffect(() => {
+    if (flatListRef.current && chatbotResponses.length > 0) {
+      flatListRef.current.scrollToEnd({ animated: true });
+    }
+  }, [chatbotResponses]);
+
 
   const handleTextInputChange = (text) => {
     setInputValue(text);
@@ -363,11 +386,12 @@ const DiseaseInfoPage = () => {
     }
   };
 
+
   return (
     <MenuProvider>
 
-    <View style={styles.container}>
-      <SafeAreaView>
+      <View style={styles.container}>
+        <SafeAreaView>
           <View style={styles.topBar}>
             <View style={styles.profileContainer}>
               <Image source={require('./assets/images/chat-icon.png')} style={styles.profilePicture} />
@@ -393,79 +417,60 @@ const DiseaseInfoPage = () => {
           </View>
         </SafeAreaView>
 
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-        {renderChatbotResponses()}
-      </ScrollView>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Type your query..."
-          value={inputValue}
-          onChangeText={handleTextInputChange}
+
+        <FlatList
+          ref={flatListRef}
+          data={chatbotResponses}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => {
+            const messageStyle = item.sender === 'user' ? styles.userMessage : styles.chatbotMessage;
+            const messageContainerStyle = item.sender === 'user' ? styles.userMessageContainer : styles.chatbotMessageContainer;
+            const avatarIcon = item.sender === 'chatbot' ? require('./assets/images/chatbot-iconn.png') : null;
+            return (
+              // <View style={[styles.chatContainer, messageStyle]}>
+              <View style={messageContainerStyle}>
+                {item.sender === 'chatbot' && (
+                  <View style={styles.avatarContainer}>
+                    <Image source={avatarIcon} style={styles.avatar} />
+                  </View>
+                )}
+                <View style={[styles.message, messageStyle]}>
+                  <Text style={styles.text}>{item.text}</Text>
+                </View>
+                {item.sender === 'user' && (
+                  <View style={styles.avatarContainer}>
+                    <Image source={avatarIcon} style={styles.avatar} />
+                  </View>
+                )}
+              </View>
+            );
+          }}
+          ListHeaderComponent={<View style={styles.header} />}
+          ListFooterComponent={<View style={styles.footer} />}
+          contentContainerStyle={styles.flatListContent}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSendButtonPress}>
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
+
+
+
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Message"
+            value={inputValue}
+            onChangeText={handleTextInputChange}
+          />
+          <TouchableOpacity style={styles.sendButton} onPress={handleSendButtonPress}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
     </MenuProvider>
 
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  scrollViewContainer: {
-    flexGrow: 1,
-    padding: 16,
-  },
-  chatContainer: {
-    marginBottom: 16,
-    padding: 12,
-    borderRadius: 8,
-    maxWidth: '80%',
-  },
-  userChatContainer: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#d3eaf7',
-  },
-  chatbotChatContainer: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#f5f5f5',
-  },
-  chatText: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
-  },
-  textInput: {
-    flex: 1,
-    marginRight: 8,
-    padding: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-  sendButton: {
-    backgroundColor: '#2196f3',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  sendButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -490,17 +495,11 @@ const styles = StyleSheet.create({
     height: 40,
     // borderRadius: 20,
   },
-  // userMessageContainer: {
-  //   // backgroundColor: '#DCF8C6',
-  //   // marginLeft: 'auto',
-  //   // flexDirection: 'row',
-  //   // alignItems: 'center',
-  // },
   chatbotMessageContainer: {
     // backgroundColor: '#F3F3F3',
     // marginRight: 'auto',
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row', // chatbot- icon same line
+    // alignItems: 'center',
   },
   message: {
     flexDirection: 'row', // Add this line to align the icon and text horizontally
@@ -513,7 +512,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50
   },
-
   userMessage: {
     alignSelf: 'flex-end',
     borderBottomRightRadius: 20,
@@ -521,11 +519,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     backgroundColor: 'green',
     marginRight: 10,
-    marginTop:5,
+    marginTop: 5,
     paddingLeft: 15,
     paddingRight: 15,
     color: '#fff',
-    fontFamily: "DMSans-Regular"
+    fontFamily: "DMSans-Regular",
   },
   chatbotMessage: {
     alignSelf: 'flex-start',
@@ -538,15 +536,66 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     paddingLeft: 15,
     paddingRight: 15,
-    marginTop:5,
+    marginTop: 5,
   },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    color: 'white'
+  },
+  textInput: {
+    flex: 1,
+    marginRight: 8,
+    padding: 8,
+    borderRadius: 8,
+    // borderWidth: 1,
+    // borderColor: '#e0e0e0',
+    color: 'black',
+    backgroundColor:'#E9EAFF'
+  },
+  sendButton: {
+    backgroundColor: '#29A9E4',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  sendButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
+  },
+
+  messagesContainer: {
+    flex: 1,
+    padding: 3,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+  },
+  text: {
+    fontSize: 16,
+    color: 'white'
+  },
+  avatarContainer: {
+    alignItems: 'flex-start',
+    marginRight: 4,
+    marginLeft: 8,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    // borderRadius: 20,
+  },
+
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#E5E5EA',
-    backgroundColor: '#005D6C',
+    // borderTopColor: '#E5E5EA',
+    backgroundColor: '#00043C',
     // position: 'absolute',
     bottom: 0,
     padding: 10,
@@ -554,32 +603,10 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
   },
-  input: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#E5E5EA',
-    borderRadius: 8,
-    backgroundColor: 'white',
-    paddingHorizontal: 10,
-  },
-
-  addButton: {
-    marginLeft: 8,
-    backgroundColor: "#3CCDE1",
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 8,
-    width: 56,
-  },
-  addButtonText: {
-    color: 'black',
-    fontFamily: "DMSans-Regular"
-  },
   sendButton: {
     marginRight: 11,
     marginLeft: 11,
-    backgroundColor: "black",
+    backgroundColor: "#29A9E4",
     paddingHorizontal: 11,
     paddingVertical: 10,
     borderRadius: 8,
@@ -587,13 +614,10 @@ const styles = StyleSheet.create({
 
   },
   sendButtonText: {
-    color: 'white',
+    color: 'black',
     fontFamily: "DMSans-Regular",
 
   },
-
-
-
   header: {
     height: 0,
   },
@@ -604,13 +628,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   topBar: {
-    marginTop: 45,
+    marginTop: 4,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     height: 80,
-    backgroundColor: '#005D6C',
+    backgroundColor: '#00043C',
     borderBottomWidth: 1,
     borderBottomColor: '#DDD',
     borderBottomLeftRadius: 20,
