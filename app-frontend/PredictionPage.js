@@ -22,7 +22,7 @@ export default function PredictionPage() {
 
 
 
-  const [userMessages, setUserMessages] = useState([]);
+  const [userMessages, setUserMessages] = useState([]); 
   const [lastSender, setLastSender] = useState("chatbot");
 
   const prompts = {
@@ -34,9 +34,9 @@ export default function PredictionPage() {
       "Hey nice to meet you!",
     ],
     symptom: [
-      "1What symptoms are you experiencing?",
-      "2Can you tell me more about your symptoms?",
-      "3How are you feeling today?",
+      "What symptoms are you experiencing?",
+      "Can you tell me more about your symptoms?",
+      "How are you feeling today?",
     ],
   };
 
@@ -97,7 +97,7 @@ export default function PredictionPage() {
   const handleSubmit = async () => {
     console.log("list" + symptomsList)
     try {
-      const response = await fetch('http://192.168.1.76:5000/predict', {
+      const response = await fetch('http://172.20.182.46:5000/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

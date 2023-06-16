@@ -194,7 +194,7 @@ const IntroSlider1 = ({ navigation }) => {
 
   const handleSkip = () => {
     console.log('Skip button pressed');
-    console.log(navigation);
+    // console.log(navigation);
     navigation.navigate('HomeNew');
   };
 
