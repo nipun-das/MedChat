@@ -20,6 +20,12 @@ export default function PredictionPage() {
   const [isGreeting, setIsGreeting] = useState(true);
   const [isChatbotOnline, setIsChatbotOnline] = useState(true); // Online/offline status of the chatbot
 
+// ...
+const [isDisclaimerVisible, setIsDisclaimerVisible] = useState(true);
+// ...
+const handleDismissDisclaimer = () => {
+  setIsDisclaimerVisible(false);
+};
 
 
   const [userMessages, setUserMessages] = useState([]);
@@ -148,16 +154,6 @@ export default function PredictionPage() {
     }
   };
 
-
-
-
-  // const scrollViewRef = useRef();
-
-  // useEffect(() => {
-  //   scrollViewRef.current.scrollToEnd({ animated: true });
-  // });
-
-
   const chatItems = [].concat(
     userMessages.map((message, index) => (
       <View style={styles.messagesContainer} key={index}>
@@ -175,18 +171,6 @@ export default function PredictionPage() {
     ))
   );
 
-
-  // const messages = [];
-
-  // userMessages.forEach((message, index) => {
-  //   messages.push({ text: message, sender: 'user', id: index });
-  //   if (chatbotResponses[index]) {
-  //     messages.push({ text: chatbotResponses[index], sender: 'chatbot', id: index + 1 });
-  //   }
-  // });
-  //put a count ..
-  //check odd even
-
   const combinedMessages = [];
   number = 0;
   for (let i = 0; i < userMessages.length || i < chatbotResponses.length; i++) {
@@ -201,23 +185,10 @@ export default function PredictionPage() {
     }
   }
   console.log(combinedMessages, "\n")
-  // const chatTexts = chatItems.map((item) => item.text);
 
-
-
-
-  // const TopBar = () => {
   const MenuIcon = require('./assets/images/hamburger-icon.png');
 
   const menuRef = useRef(null);
-
-
-
-  const handlePlaceholderOption = () => {
-    // Implement your logic for the placeholder option here
-    // ...
-    // menuRef.current.hide();
-  };
 
 
   const flatListRef = useRef(null);
@@ -232,7 +203,20 @@ export default function PredictionPage() {
 
     <MenuProvider>
       <View style={styles.container}>
+        
         <SafeAreaView>
+        <Modal visible={isDisclaimerVisible} transparent>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.disclaimerText}>
+              The results provided are for predictive analysis only. We always recommend consulting a doctor for accurate diagnosis and treatment.
+            </Text>
+            <TouchableOpacity style={styles.dismissButton} onPress={handleDismissDisclaimer}>
+              <Text style={styles.dismissButtonText}>Dismiss</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
           <View style={styles.topBar}>
             <View style={styles.profileContainer}>
               <Image source={require('./assets/images/chat-icon.png')} style={styles.profilePicture} />
@@ -256,12 +240,6 @@ export default function PredictionPage() {
             </View>
           </View>
         </SafeAreaView>
-
-
-        {/* <ScrollView ref={scrollViewRef}> */}
-        {/* <ScrollView ref={scrollViewRef}> */}
-
-
 
         <FlatList
           ref={flatListRef}
@@ -327,6 +305,41 @@ export default function PredictionPage() {
 }
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    maxWidth: 400,
+  },
+  disclaimerText: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+    color: '#555',
+  },
+  dismissButton: {
+    backgroundColor: '#005D6C',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+  },
+  dismissButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+
+
+
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -404,8 +417,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#E5E5EA',
+    // borderTopWidth: 1,
+    // borderTopColor: '#E5E5EA',
     backgroundColor: '#005D6C',
     // position: 'absolute',
     bottom: 0,
@@ -417,8 +430,8 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
-    borderWidth: 1,
-    borderColor: '#E5E5EA',
+    // borderWidth: 1,
+    // borderColor: '#E5E5EA',
     borderRadius: 8,
     backgroundColor: '#1AC2DD',
     paddingHorizontal: 10,
