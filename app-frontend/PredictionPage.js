@@ -97,7 +97,7 @@ export default function PredictionPage() {
   const handleSubmit = async () => {
     console.log("list" + symptomsList)
     try {
-      const response = await fetch('http://172.20.182.46:5000/predict', {
+      const response = await fetch('http://192.168.1.72:5000/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
