@@ -70,16 +70,23 @@ const DiseaseInfoPage = () => {
   };
 
   const formatHTML = (html) => {
-    const paragraphs = html.split('<p>').filter((p) => p !== '');
-    const formattedParagraphs = paragraphs.map((p) => {
-      const strippedText = p.replace(/<\/?[^>]+(>|$)/g, '');
-      return strippedText.trim();
-    });
-    const formattedHTML = formattedParagraphs.join('\n\n');
-
-
+    // Replace <p> tags with newline characters
+    let formattedHTML = html.replace(/<\/p>\s*<p>/g, '\n\n');
+  
+    // Replace <li> tags with newline characters
+    formattedHTML = formattedHTML.replace(/<\/li>\s*<li>/g, '\n-');
+  
+    // Remove remaining HTML tags
+    formattedHTML = formattedHTML.replace(/<\/?[^>]+(>|$)/g, '');
+  
+    // Trim leading and trailing whitespace
+    formattedHTML = formattedHTML.trim();
+  
     return formattedHTML;
   };
+  
+  
+  
 
   
   const flatListRef = useRef(null);

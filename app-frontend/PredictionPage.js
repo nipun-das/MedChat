@@ -22,19 +22,19 @@ export default function PredictionPage() {
 
 
 
-  const [userMessages, setUserMessages] = useState([]); 
+  const [userMessages, setUserMessages] = useState([]);
   const [lastSender, setLastSender] = useState("chatbot");
 
   const prompts = {
     greeting: [
       "Hey there! How are you feeling today?",
       "Hello! What's going on?",
-      "Hi user!",
-      "Hello user!",
-      "Hey nice to meet you!",
+      "Hi user! \nWhat symptoms are you experiencing?",
+      "Hello user!\nHow are you feeling today?",
+      "Hey nice to meet you!. How are you feeling today?",
     ],
     symptom: [
-      "What symptoms are you experiencing?",
+      // "What symptoms are you experiencing?",
       "Can you tell me more about your symptoms?",
       "How are you feeling today?",
     ],
@@ -45,11 +45,11 @@ export default function PredictionPage() {
       const lowerCaseInput = symptoms.toLowerCase();
       setUserMessages((prevMessages) => [...prevMessages, { text: symptoms, sender: 'user' }]);
       setLastSender("user");
-  
+
       // Check if the user input contains greeting words
       const greetingWords = ["hey", "hi", "hello"];
       const hasGreeting = greetingWords.some(word => lowerCaseInput.includes(word));
-  
+
       if (hasGreeting) {
         setIsGreeting(true);
         // Use a greeting prompt
@@ -61,9 +61,9 @@ export default function PredictionPage() {
         setSymptomsList([...symptomsList, symptoms]);
         setSymptoms('');
         console.log("1." + symptoms);
-  
+
         setIsGreeting(false);
-  
+
         // Use a symptom prompt
         const prompt = prompts.symptom[Math.floor(Math.random() * prompts.symptom.length)];
         setChatbotResponses(prevResponses => [...prevResponses, { text: prompt, sender: 'chatbot' }]);
@@ -71,7 +71,7 @@ export default function PredictionPage() {
       }
     }
   };
-  
+
 
 
   const handleFinishSymptoms = () => {
@@ -94,6 +94,17 @@ export default function PredictionPage() {
 
   };
 
+  // ...
+
+  // useEffect(() => {
+  //   // Greet the user with "hi" when the component mounts
+  //   const greeting = "Hiiiiiiiiiiiiii!";
+  //   setChatbotResponses((prevResponses) => [...prevResponses, { text: greeting, sender: 'chatbot' }]);
+  //   setLastSender('chatbot');
+  // }, []);
+
+  // ...
+
   const handleSubmit = async () => {
     console.log("list" + symptomsList)
     try {
@@ -108,7 +119,7 @@ export default function PredictionPage() {
       const data = await response.json();
       setPrediction(data.prediction);
 
-      setChatbotResponses([...chatbotResponses, { text: data.prediction, sender: 'chatbot' }]);
+      setChatbotResponses([...chatbotResponses, { text: "You may have " + data.prediction + ". Please consult a doctor.", sender: 'chatbot' }]);
       setLastSender("chatbot");
     } catch (error) {
       console.error(error);
@@ -370,7 +381,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     backgroundColor: 'green',
     marginRight: 10,
-    marginTop:5,
+    marginTop: 5,
     paddingLeft: 15,
     paddingRight: 15,
     color: '#fff',
@@ -387,7 +398,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     paddingLeft: 15,
     paddingRight: 15,
-    marginTop:5,
+    marginTop: 5,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -409,7 +420,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E5E5EA',
     borderRadius: 8,
-    backgroundColor: '#0095AD',
+    backgroundColor: '#1AC2DD',
     paddingHorizontal: 10,
   },
 
