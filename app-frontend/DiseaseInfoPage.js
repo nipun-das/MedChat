@@ -23,7 +23,7 @@ const DiseaseInfoPage = () => {
       ]);
     }, delay);
   
-    return () => clearTimeout(timer); // Cleanup function to clear the timer if the component unmounts or re-renders before the delay
+    return () => clearTimeout(timer); 
   
   }, []);
 
@@ -117,7 +117,7 @@ const DiseaseInfoPage = () => {
         <SafeAreaView>
           <View style={styles.topBar}>
             <View style={styles.profileContainer}>
-              <Image source={require('./assets/images/chat-icon.png')} style={styles.profilePicture} />
+              <Image source={require('./assets/images/ch.png')} style={styles.profilePicture} />
               <View style={styles.medContainer}>
                 <Text style={styles.profileName}>MedChat</Text>
                 <Text style={styles.online}>Online</Text>
@@ -148,7 +148,7 @@ const DiseaseInfoPage = () => {
           renderItem={({ item }) => {
             const messageStyle = item.sender === 'user' ? styles.userMessage : styles.chatbotMessage;
             const messageContainerStyle = item.sender === 'user' ? styles.userMessageContainer : styles.chatbotMessageContainer;
-            const avatarIcon = item.sender === 'chatbot' ? require('./assets/images/chatbot-iconn.png') : null;
+            const avatarIcon = item.sender === 'chatbot' ? require('./assets/images/ch.png') : null;
             return (
               // <View style={[styles.chatContainer, messageStyle]}>
               <View style={messageContainerStyle}>
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
     borderTopLeftRadius: 20,
-    backgroundColor: 'green',
+    backgroundColor: '#408AB4',
     marginRight: 10,
     marginTop: 5,
     paddingLeft: 15,
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   chatbotMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: '#005D6C',
+    backgroundColor: '#0C5782',
     maxWidth: 230,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     borderTopWidth: 1,
     // borderTopColor: '#E5E5EA',
-    backgroundColor: '#00043C',
+    backgroundColor: '#408AB4',
     // position: 'absolute',
     bottom: 0,
     padding: 10,
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     height: 80,
-    backgroundColor: '#00043C',
+    backgroundColor: '#408AB4',
     borderBottomWidth: 1,
     borderBottomColor: '#DDD',
     borderBottomLeftRadius: 20,

@@ -20,12 +20,12 @@ export default function PredictionPage() {
   const [isGreeting, setIsGreeting] = useState(true);
   const [isChatbotOnline, setIsChatbotOnline] = useState(true); // Online/offline status of the chatbot
 
-// ...
-const [isDisclaimerVisible, setIsDisclaimerVisible] = useState(true);
-// ...
-const handleDismissDisclaimer = () => {
-  setIsDisclaimerVisible(false);
-};
+  // ...
+  const [isDisclaimerVisible, setIsDisclaimerVisible] = useState(true);
+  // ...
+  const handleDismissDisclaimer = () => {
+    setIsDisclaimerVisible(false);
+  };
 
 
   const [userMessages, setUserMessages] = useState([]);
@@ -82,9 +82,17 @@ const handleDismissDisclaimer = () => {
 
   const handleFinishSymptoms = () => {
     setIsAskingSymptom(false);
-    // console.log("2." + symptomsList)
-    handleSubmit()
+    if (symptomsList.length < 5) {
+      setChatbotResponses(prevResponses => [
+        ...prevResponses,
+        { text: "Please enter at least 5 symptoms.", sender: 'chatbot' }
+      ]);
+      setLastSender("chatbot");
+    } else {
+      handleSubmit();
+    }
   };
+
 
   const handleReloadChat = () => {
     // Reset the chat state here
@@ -203,23 +211,23 @@ const handleDismissDisclaimer = () => {
 
     <MenuProvider>
       <View style={styles.container}>
-        
+
         <SafeAreaView>
-        <Modal visible={isDisclaimerVisible} transparent>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.disclaimerText}>
-              The results provided are for predictive analysis only. We always recommend consulting a doctor for accurate diagnosis and treatment.
-            </Text>
-            <TouchableOpacity style={styles.dismissButton} onPress={handleDismissDisclaimer}>
-              <Text style={styles.dismissButtonText}>Dismiss</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+          <Modal visible={isDisclaimerVisible} transparent>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text style={styles.disclaimerText}>
+                  The results provided are for predictive analysis only.{"\n"}We always recommend consulting a doctor for accurate diagnosis and treatment.
+                </Text>
+                <TouchableOpacity style={styles.dismissButton} onPress={handleDismissDisclaimer}>
+                  <Text style={styles.dismissButtonText}>Dismiss</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
           <View style={styles.topBar}>
             <View style={styles.profileContainer}>
-              <Image source={require('./assets/images/chat-icon.png')} style={styles.profilePicture} />
+              <Image source={require('./assets/images/ch.png')} style={styles.profilePicture} />
               <View style={styles.medContainer}>
                 <Text style={styles.profileName}>MedChat</Text>
                 <Text style={styles.online}>Online</Text>
@@ -248,7 +256,7 @@ const handleDismissDisclaimer = () => {
           renderItem={({ item }) => {
             const messageStyle = item.sender === 'user' ? styles.userMessage : styles.chatbotMessage;
             const messageContainerStyle = item.sender === 'user' ? styles.userMessageContainer : styles.chatbotMessageContainer;
-            const avatarIcon = item.sender === 'chatbot' ? require('./assets/images/chatbot-iconn.png') : null;
+            const avatarIcon = item.sender === 'chatbot' ? require('./assets/images/ch.png') : null;
             return (
               <View style={messageContainerStyle}>
                 {item.sender === 'chatbot' && (
@@ -319,10 +327,11 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   disclaimerText: {
-    fontSize: 18,
+    fontSize: 17,
     marginBottom: 20,
     textAlign: 'center',
-    color: '#555',
+    fontFamily: "DMSans-Regular",
+    color: 'black',
   },
   dismissButton: {
     backgroundColor: '#005D6C',
@@ -334,7 +343,8 @@ const styles = StyleSheet.create({
   dismissButtonText: {
     color: '#FFF',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: "DMSans-Regular",
+    // fontWeight: 'bold',
   },
 
 
@@ -419,7 +429,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     // borderTopWidth: 1,
     // borderTopColor: '#E5E5EA',
-    backgroundColor: '#005D6C',
+    backgroundColor: '#1E8449',
     // position: 'absolute',
     bottom: 0,
     padding: 10,
@@ -433,13 +443,13 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     // borderColor: '#E5E5EA',
     borderRadius: 8,
-    backgroundColor: '#1AC2DD',
+    backgroundColor: '#46CE80',
     paddingHorizontal: 10,
   },
 
   addButton: {
     marginLeft: 8,
-    backgroundColor: "#3CCDE1",
+    backgroundColor: "#46CE80",
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 8,
@@ -483,11 +493,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     height: 80,
-    backgroundColor: '#005D6C',
+    backgroundColor: '#1E8449',
     borderBottomWidth: 1,
     borderBottomColor: '#DDD',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
     marginBottom: 10,
   },
   profileContainer: {
@@ -533,6 +543,7 @@ const styles = StyleSheet.create({
   menuOption: {
     padding: 8,
     fontSize: 16,
+    fontFamily: "DMSans-Regular",
     fontWeight: 'bold',
     color: '#333',
   },
