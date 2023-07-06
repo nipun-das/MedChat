@@ -42,7 +42,7 @@ export default function PredictionPage() {
     symptom: [
       // "What symptoms are you experiencing?",
       "Can you tell me more about your symptoms?",
-      "How are you feeling today?",
+      // "How are you feeling today?",
     ],
   };
 
@@ -82,7 +82,7 @@ export default function PredictionPage() {
 
   const handleFinishSymptoms = () => {
     setIsAskingSymptom(false);
-    if (symptomsList.length < 5) {
+    if (symptomsList.length < 4) {
       setChatbotResponses(prevResponses => [
         ...prevResponses,
         { text: "Please enter at least 5 symptoms.", sender: 'chatbot' }
@@ -122,7 +122,7 @@ export default function PredictionPage() {
   const handleSubmit = async () => {
     console.log("list" + symptomsList)
     try {
-      const response = await fetch('http://192.168.1.72:5000/predict', {
+      const response = await fetch('http://192.168.194.49:5000/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -239,9 +239,12 @@ export default function PredictionPage() {
                   <Image source={require('./assets/images/white-hamburger-icon.png')} style={styles.menuIcon} />
                 </MenuTrigger>
                 <MenuOptions>
-                  <MenuOption onSelect={handleReloadChat}>
-                    <Text style={styles.menuOption}>Reload</Text>
-                  </MenuOption>
+                  <View style={styles.sidebar}>
+                    <TouchableOpacity onPress={handleReloadChat}>
+                      <Text style={styles.sidebarOption}>Reload</Text>
+                    </TouchableOpacity>
+                    {/* Add more sidebar options here if needed */}
+                  </View>
                   {/* Add more menu options here */}
                 </MenuOptions>
               </Menu>
@@ -547,6 +550,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
+
+
+  sidebar: {
+    position: 'absolute',
+    // top: 60,
+    right: -10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10,
+    elevation: 5,
+    zIndex: 10,
+  },
+  sidebarOption: {
+    fontSize: 18,
+    fontFamily: 'DMSans-Medium',
+    marginVertical: 5,
+  },
+
 
 });
 

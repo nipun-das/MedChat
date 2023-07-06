@@ -15,16 +15,16 @@ const DiseaseInfoPage = () => {
 
   useEffect(() => {
     const delay = 500; // 1 second delay
-  
+
     const timer = setTimeout(() => {
       setChatbotResponses(prevResponses => [
         ...prevResponses,
         { text: "Hello! I'm a disease information chat-bot. Enter a disease name, and I'll provide detailed information. \nLet's get started!", sender: 'chatbot' }
       ]);
     }, delay);
-  
-    return () => clearTimeout(timer); 
-  
+
+    return () => clearTimeout(timer);
+
   }, []);
 
   const handleRequest = async () => {
@@ -72,23 +72,23 @@ const DiseaseInfoPage = () => {
   const formatHTML = (html) => {
     // Replace <p> tags with newline characters
     let formattedHTML = html.replace(/<\/p>\s*<p>/g, '\n\n');
-  
+
     // Replace <li> tags with newline characters
     formattedHTML = formattedHTML.replace(/<\/li>\s*<li>/g, '\n-');
-  
+
     // Remove remaining HTML tags
     formattedHTML = formattedHTML.replace(/<\/?[^>]+(>|$)/g, '');
-  
+
     // Trim leading and trailing whitespace
     formattedHTML = formattedHTML.trim();
-  
+
     return formattedHTML;
   };
-  
-  
-  
 
-  
+
+
+
+
   const flatListRef = useRef(null);
   useEffect(() => {
     if (flatListRef.current && chatbotResponses.length > 0) {
@@ -108,7 +108,11 @@ const DiseaseInfoPage = () => {
       handleRequest();
     }
   };
-
+  const handleReloadChat = () => {
+    setInputValue('');
+    setDiseaseInfo('');
+    setChatbotResponses([]);
+  };
 
   return (
     <MenuProvider>
@@ -124,16 +128,17 @@ const DiseaseInfoPage = () => {
               </View>
             </View>
             <View style={styles.menuContainer}>
-              <Menu>
+            <Menu>
                 <MenuTrigger>
                   <Image source={require('./assets/images/white-hamburger-icon.png')} style={styles.menuIcon} />
                 </MenuTrigger>
                 <MenuOptions>
-                  {/* <MenuOption onSelect={handleReloadChat}> */}
-                  <MenuOption>
-                    <Text style={styles.menuOption}>Reload</Text>
-                  </MenuOption>
-                  {/* Add more menu options here */}
+                <View style={styles.sidebar}>
+                    <TouchableOpacity onPress={handleReloadChat}>
+                      <Text style={styles.sidebarOption}>Reload</Text>
+                    </TouchableOpacity>
+                    {/* Add more sidebar options here if needed */}
+                  </View>
                 </MenuOptions>
               </Menu>
             </View>
@@ -278,7 +283,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     // borderColor: '#e0e0e0',
     color: 'black',
-    backgroundColor:'#E9EAFF'
+    backgroundColor: '#E9EAFF'
   },
   sendButton: {
     backgroundColor: '#29A9E4',
@@ -411,6 +416,21 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 
+  sidebar: {
+    position: 'absolute',
+    // top: 60,
+    right: -10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10,
+    elevation: 5,
+    zIndex: 10,
+  },
+  sidebarOption: {
+    fontSize: 18,
+    fontFamily: 'DMSans-Medium',
+    marginVertical: 5,
+  },
 });
 
 export default DiseaseInfoPage;

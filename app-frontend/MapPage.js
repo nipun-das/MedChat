@@ -331,6 +331,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         marginBottom: 10,
         padding: 10,
+        borderRadius:3,
 
     },
     hospitalInfoContainer: {
