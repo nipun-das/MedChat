@@ -3,6 +3,13 @@ import { View, Text, TouchableOpacity, Linking, Modal, StyleSheet, ScrollView } 
 import * as Location from 'expo-location';
 import MapView, { Marker, Callout } from 'react-native-maps';
 
+import Constants from 'expo-constants';
+const apiKey = Constants.expoConfig.extra.API_KEY;
+
+
+
+
+
 const MapPage = () => {
     const [location, setLocation] = useState(null);
     const [hospitals, setHospitals] = useState([]);
@@ -32,7 +39,8 @@ const MapPage = () => {
     };
 
     const fetchHospitals = async (latitude, longitude) => {
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=${process.env.API_KEY}`;
+        // const API_KEY = process.env.API_KEY;
+        const apiUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=${apiKey}`;
 
         console.log(apiUrl);
         try {

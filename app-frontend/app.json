@@ -31,6 +31,9 @@
     "assets": [
       "./assets/fonts/",
       "./assets/images/"
-    ]
+    ],
+    "extra": {
+      "API_KEY": "AIzaSyAVBEpOVStIM8N7qD3MXnWMXjFDXe8wr8Y"
+    }
   }
 }
