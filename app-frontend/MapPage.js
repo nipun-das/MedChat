@@ -32,7 +32,7 @@ const MapPage = () => {
     };
 
     const fetchHospitals = async (latitude, longitude) => {
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=AIzaSyAVBEpOVStIM8N7qD3MXnWMXjFDXe8wr8Y`;
+        const apiUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital&key=${process.env.API_KEY}`;
 
         console.log(apiUrl);
         try {
